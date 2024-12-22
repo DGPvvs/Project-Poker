@@ -1,4 +1,7 @@
 #pragma once
 #include <vector>
 
-void SetUpCardDesk(std::vector<unsigned short int>&);
+#include "GlobalTypes.h"
+
+
+void SetUpCardDesk(std::vector<card_type>&);

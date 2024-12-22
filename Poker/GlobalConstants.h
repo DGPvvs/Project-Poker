@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GlobalTypes.h"
+
 enum Pip
 {
     N7 = 0b100000000,
@@ -33,7 +35,7 @@ enum Rank
     Eight = 8,
     Seven = 7,
     RankMask = 0b1111,
-    NegativeRankmask = ~RankMask
+    NegativeRankMask = ~RankMask
 };
 
 const int MIN_PLAYERS = 2;
@@ -42,4 +44,12 @@ const int MAX_PLAYERS = 9;
 const size_t PIPS_ROW = 2;
 const size_t CARDS_COL = 8;
 const size_t SUITS = 4;
+
+const card_type pipsMatrix[PIPS_ROW][CARDS_COL] =
+{
+    {Pip::N7, Pip::N8, Pip::N9, Pip::N10, Pip::J, Pip::Q, Pip::K, Pip::A },
+    {Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen, Rank::King, Rank::Ace}
+};
+
+const card_type suits[SUITS] = { Suit::Clubs, Suit::Diamonds, Suit::Hearts, Suit::Spades };
 
