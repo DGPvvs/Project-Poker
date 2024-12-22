@@ -6,6 +6,7 @@
 
 #include "GlobalConstants.h"
 #include "SetDesk.h"
+#include "Common.h"
 
 
 int main()
@@ -31,7 +32,7 @@ int main()
     {
         for (size_t pips = 0; pips < CARDS_COL; pips++)
         {
-            std::cout << "cardDesk[" << i << "] = " << cardDesk[i] << std::endl;
+            std::cout << CardToString(cardDesk[i]) << std::endl;
             i++;
         }
     }

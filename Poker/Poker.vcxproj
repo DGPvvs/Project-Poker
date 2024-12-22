@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Poker.cpp" />
     <ClCompile Include="SetDesk.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="GlobalConstants.h" />
     <ClInclude Include="GlobalTypes.h" />
     <ClInclude Include="SetDesk.h" />
