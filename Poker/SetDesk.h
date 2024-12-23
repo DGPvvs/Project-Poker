@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "GlobalTypes.h"
+#include "Card.h"
 
 
-void SetUpCardDesk(std::vector<card_type>&);
+void SetUpCardDesk(std::vector<Card>&);

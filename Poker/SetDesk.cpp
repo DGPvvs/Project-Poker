@@ -3,7 +3,7 @@
 #include "SetDesk.h"
 #include "GlobalConstants.h"
 
-void SetUpCardDesk(std::vector<card_type>& v)
+void SetUpCardDesk(std::vector<Card>& v)
 {
 	v.clear();
 	
@@ -11,9 +11,8 @@ void SetUpCardDesk(std::vector<card_type>& v)
 	{
 		for (size_t pips = 0; pips < CARDS_COL; pips++)
 		{
-			card_type c = pipsMatrix[0][pips] | pipsMatrix[1][pips] | suits[suit];
-			v.push_back(c);			
+			Card card(pipsMatrix[0][pips] | pipsMatrix[1][pips] | suits[suit]);
+			v.push_back(card);			
 		}
-	}
-	v[0] = (v[0] & Rank::NegativeRankMask) | Rank::Ace;	
+	}	
 }

@@ -7,11 +7,13 @@
 #include "GlobalConstants.h"
 #include "SetDesk.h"
 #include "Common.h"
+#include "Card.h"
+#include "Player.h"
 
 
 int main()
 {
-    std::vector<unsigned short int> cardDesk = std::vector<unsigned short int>();    
+    std::vector<Card> cardDesk = std::vector<Card>();
 
     SetUpCardDesk(cardDesk);
 
@@ -20,7 +22,7 @@ int main()
     {
         for (size_t pips = 0; pips < CARDS_COL; pips++)
         {
-            std::cout << "cardDesk[" << i << "] = " << cardDesk[i] << std::endl;
+            std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
             i++;
         }
     }
@@ -32,10 +34,14 @@ int main()
     {
         for (size_t pips = 0; pips < CARDS_COL; pips++)
         {
-            std::cout << CardToString(cardDesk[i]) << std::endl;
+            std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
             i++;
         }
     }
+    std::string namePlayer1 = "My";
+    Player player1(namePlayer1);
+
+    std::cout << player1.GetName() << std::endl;
 
 
     unsigned short int card;
