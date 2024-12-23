@@ -13,11 +13,11 @@
 
 int main()
 {
-    std::vector<Card> cardDesk = std::vector<Card>();
+    std::vector<Card> cardDesk = std::vector<Card>();    
 
     SetUpCardDesk(cardDesk);
 
-    int i = 0;
+    /*int i = 0;
     for (size_t suit = 0; suit < SUITS; suit++)
     {
         for (size_t pips = 0; pips < CARDS_COL; pips++)
@@ -25,21 +25,57 @@ int main()
             std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
             i++;
         }
-    }
+    }*/
 
-    SetUpCardDesk(cardDesk);
+    std::cout << "cardDesk size = " << cardDesk.size() << std::endl;
 
-    i = 0;
-    for (size_t suit = 0; suit < SUITS; suit++)
-    {
-        for (size_t pips = 0; pips < CARDS_COL; pips++)
-        {
-            std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
-            i++;
-        }
-    }
     std::string namePlayer1 = "My";
     Player player1(namePlayer1);
+
+    player1.SetCards(cardDesk);
+
+    
+    Player player2(namePlayer1);
+
+    player2.SetCards(cardDesk);
+
+
+    std::cout << "cardDesk size = " << cardDesk.size() << std::endl;
+
+    for (size_t i = 0; i < cardDesk.size(); i++)
+    {
+        std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
+    }
+
+    /*int i = 0;
+    for (size_t suit = 0; suit < SUITS; suit++)
+    {
+        for (size_t pips = 0; pips < CARDS_COL; pips++)
+        {
+            std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
+            i++;
+        }
+    }*/
+
+
+
+    SetUpCardDesk(cardDesk);
+
+    for (size_t i = 0; i < cardDesk.size(); i++)
+    {
+        std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
+    }
+
+   /* i = 0;
+    for (size_t suit = 0; suit < SUITS; suit++)
+    {
+        for (size_t pips = 0; pips < CARDS_COL; pips++)
+        {
+            std::cout << "cardDesk[" << i << "] = " << cardDesk[i].ToString() << std::endl;
+            i++;
+        }
+    }*/
+    
 
     std::cout << player1.GetName() << std::endl;
 
