@@ -11,11 +11,14 @@ private:
 	std::vector<Card> _cards;
 	std::string _name;
 	bool _isHasSevenClubs;
-	int _points;
-	int _currentRange;
+	bool _isPlayerActive;
+	int _chips;
+	int _currentPoints;
 
 	void ClearCards();
-	void CalcRange();
+	int CalcPoints();
+	bool ThreeSevens();
+	bool ThreeOfAKind();
 
 public:
 	Player();
@@ -23,7 +26,10 @@ public:
 
 	std::string GetName() const;
 
-	int GetRange() const;
+	bool GetPlayerActive() const;
+	void SetPlayerActive(bool);
+
+	int GetPoints() const;
 
 	void SetCards(std::vector<Card>&);
 

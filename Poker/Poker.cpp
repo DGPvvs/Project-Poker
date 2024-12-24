@@ -13,6 +13,15 @@
 
 int main()
 {
+    std::vector<Card> cards = std::vector<Card>();
+    Card card1 = Card(Pip::N7 & Suit::Diamonds);
+    Card card2 = Card(Pip::N7 & Suit::Hearts);
+    Card card3 = Card(Pip::N7 & Suit::Spades);
+
+    AddCartInDesk(card1, cards);
+    AddCartInDesk(card2, cards);
+    AddCartInDesk(card3, cards);
+
     std::vector<Card> cardDesk = std::vector<Card>();    
 
     SetUpCardDesk(cardDesk);
@@ -34,10 +43,14 @@ int main()
 
     player1.SetCards(cardDesk);
 
+    std::cout << player1.CardsAndRangeToString() << std::endl;
+
     
     Player player2(namePlayer1);
 
     player2.SetCards(cardDesk);
+
+    std::cout << player2.CardsAndRangeToString() << std::endl;
 
 
     std::cout << "cardDesk size = " << cardDesk.size() << std::endl;
@@ -80,7 +93,7 @@ int main()
     std::cout << player1.GetName() << std::endl;
 
 
-    unsigned short int card;
+    //unsigned short int card4;
     Rank n = Rank::King;
     Rank m = Rank::Jack;
 

@@ -16,3 +16,8 @@ void SetUpCardDesk(std::vector<Card>& v)
 		}
 	}	
 }
+
+void AddCartInDesk(const Card& card, std::vector<Card>& v)
+{
+	v.push_back(card);
+}

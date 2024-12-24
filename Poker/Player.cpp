@@ -8,16 +8,55 @@ void Player::ClearCards()
 	this->_cards.clear();
 }
 
-void Player::CalcRange()
+int Player::CalcPoints()
 {
-	this->_currentRange = 0;
+	if (this->ThreeSevens())
+	{
+		return MAX_POINT;
+	}
+
+	if (this->ThreeOfAKind())
+	{
+		return 3 * this->_cards[0].GetCard() & RankMask;
+	}
+
+	return 0;
 }
 
-Player::Player()
+bool Player::ThreeSevens()
 {
-	this->_cards = std::vector<Card>();
-	this->_isHasSevenClubs = false;
-	this->_points = бЭВа_VALUE * START_POINTS;
+	bool result = true;
+
+	for (const auto& card : this->_cards)
+	{
+		result = result && ((card.GetCard() & Pip::PipMask) == Pip::N7);
+	}
+
+	return result;
+}
+
+bool Player::ThreeOfAKind()
+{
+	card_type check = this->_cards[0].GetCard() & Pip::PipMask;
+
+	bool result = true;
+
+	for (const auto& card : this->_cards)
+	{
+		result = result && ((card.GetCard() & Pip::PipMask) == check);
+	}
+
+	return result;
+}
+
+Player::Player() :
+	_cards(std::vector<Card>()),
+	_isHasSevenClubs(SEVEN_CLUBS_NOT_PRESENT),
+	_isPlayerActive(ACTIVE_PLAYER),
+	_chips(бЭВа_VALUE * START_POINTS),
+	_currentPoints(0)
+{
+
 }
 
 Player::Player(std::string& name) : Player::Player()
@@ -30,16 +69,27 @@ std::string Player::GetName() const
 	return this->_name;
 }
 
-int Player::GetRange() const
+bool Player::GetPlayerActive() const
 {
-	return this->_currentRange;
+	return this->_isPlayerActive;
+}
+
+void Player::SetPlayerActive(bool activateFlag)
+{
+	this->_isPlayerActive = activateFlag;
+}
+
+int Player::GetPoints() const
+{
+	return this->_currentPoints;
 }
 
 void Player::SetCards(std::vector<Card>& cardsDesk)
 {
+	
 	srand(time(0));
 	this->ClearCards();
-	this->_isHasSevenClubs = false;
+	this->_isHasSevenClubs = SEVEN_CLUBS_NOT_PRESENT;
 
 	for (int i = 0; i < CARDS_COUNT; i++)
 	{
@@ -50,16 +100,18 @@ void Player::SetCards(std::vector<Card>& cardsDesk)
 		this->_isHasSevenClubs = this->_isHasSevenClubs || card.GetIsSevenClubs();
 		cardsDesk.erase(cardsDesk.begin() + randomIndex);
 	}
+
+	this->_currentPoints = this->CalcPoints();
 }
 
 std::string Player::CardsAndRangeToString()
 {
 	std::string result = "";
 	
-	for (auto card : this->_cards)
+	for (auto& card : this->_cards)
 	{
 		result.append(card.ToString()).append(" ");
 	}
 
-	return result.append(std::to_string(this->GetRange()));
+	return result.append(std::to_string(this->GetPoints()));
 }

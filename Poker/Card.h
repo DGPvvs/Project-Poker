@@ -8,13 +8,14 @@ private:
     card_type _card;
     bool _isSevenClubs;
 
-    bool setIsSevenClubs();
+    bool setIsSevenClubs() const;
     static std::string CardToString(card_type& card);
 
 public:
     Card();
     Card(card_type card);
 
+    card_type GetCard() const;
     bool GetIsSevenClubs() const;
     std::string ToString();
     static std::string ToString(card_type& card);

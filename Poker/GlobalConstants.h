@@ -41,6 +41,13 @@ enum Rank
 const int MIN_PLAYERS = 2;
 const int MAX_PLAYERS = 9;
 
+const bool ACTIVE_PLAYER = true;
+const bool INACTIVE_PLAYER = false;
+
+const bool SEVEN_CLUBS_PRESENT = true;
+const bool SEVEN_CLUBS_NOT_PRESENT = false;
+
+
 const int бЭВа_VALUE = 10;
 const int START_POINTS = 100;
 
@@ -49,6 +56,8 @@ const size_t CARDS_COL = 8;
 const size_t SUITS = 4;
 
 const int CARDS_COUNT = 3;
+
+const int MAX_POINT = 34;
 
 const card_type pipsMatrix[PIPS_ROW][CARDS_COL] =
 {

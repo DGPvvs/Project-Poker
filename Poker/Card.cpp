@@ -1,6 +1,6 @@
 #include "Card.h"
 
-bool Card::setIsSevenClubs()
+bool Card::setIsSevenClubs() const
 {
     bool result = (this->_card & (card_type)Suit::SuitMask) == Suit::Clubs;
     result = result && (this->_card & Pip::PipMask) == Pip::N7;
@@ -73,12 +73,12 @@ std::string Card::CardToString(card_type& card)
 	return result;
 }
 
-Card::Card()
+Card::Card() : _isSevenClubs(false)
 {
 	this->_card = (card_type)Rank::RankMask | (card_type)Suit::SuitMask | Pip::PipMask;
 }
 
-Card::Card(card_type card) : _card(card)
+Card::Card(card_type card) : _card(card), _isSevenClubs(false)
 {
 	this->_isSevenClubs = this->setIsSevenClubs();
 
@@ -91,6 +91,11 @@ Card::Card(card_type card) : _card(card)
 bool Card::GetIsSevenClubs() const
 {
 	return this->_isSevenClubs;
+}
+
+card_type Card::GetCard() const
+{
+	return this->_card;
 }
 
 std::string Card::ToString()
