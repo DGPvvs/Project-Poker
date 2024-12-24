@@ -18,9 +18,9 @@ int main()
     Card card2 = Card(Pip::N7 & Suit::Hearts);
     Card card3 = Card(Pip::N7 & Suit::Spades);
 
-    AddCartInDesk(card1, cards);
-    AddCartInDesk(card2, cards);
-    AddCartInDesk(card3, cards);
+    AddCardInDesk(card1, cards);
+    AddCardInDesk(card2, cards);
+    AddCardInDesk(card3, cards);
 
     std::vector<Card> cardDesk = std::vector<Card>();    
 

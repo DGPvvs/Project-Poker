@@ -6,4 +6,4 @@
 
 
 void SetUpCardDesk(std::vector<Card>&);
-void AddCartInDesk(const Card&, std::vector<Card>&);
+void AddCardInDesk(const Card&, std::vector<Card>&);

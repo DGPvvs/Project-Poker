@@ -17,7 +17,7 @@ int Player::CalcPoints()
 
 	if (this->ThreeOfAKind())
 	{
-		return 3 * this->_cards[0].GetCard() & RankMask;
+		return 3 * (this->_cards[0].GetCard() & RankMask);
 	}
 
 	return 0;
@@ -29,7 +29,8 @@ bool Player::ThreeSevens()
 
 	for (const auto& card : this->_cards)
 	{
-		result = result && ((card.GetCard() & Pip::PipMask) == Pip::N7);
+		bool f = (card.GetCard() & Pip::PipMask) == Pip::N7;
+		result = result && f;
 	}
 
 	return result;
