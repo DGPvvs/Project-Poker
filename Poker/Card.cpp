@@ -78,7 +78,7 @@ Card::Card() : _isSevenClubs(false)
 	this->_card = (card_type)Rank::RankMask | (card_type)Suit::SuitMask | Pip::PipMask;
 }
 
-Card::Card(card_type card) : _card(card), _isSevenClubs(false)
+Card::Card(card_type card) : _card(card), _isSevenClubs(SEVEN_CLUBS_NOT_PRESENT)
 {
 	this->_isSevenClubs = this->setIsSevenClubs();
 

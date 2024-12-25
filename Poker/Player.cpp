@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "GlobalConstants.h"
+#include <algorithm>
 
 void Player::ClearCards()
 {
@@ -10,6 +11,8 @@ void Player::ClearCards()
 
 int Player::CalcPoints()
 {
+	int points = 0;
+
 	if (this->ThreeSevens())
 	{
 		return MAX_POINT;
@@ -20,7 +23,38 @@ int Player::CalcPoints()
 		return 3 * (this->_cards[0].GetCard() & RankMask);
 	}
 
-	return 0;
+	if (this->ThreeOfTheSameSuit())
+	{		
+		for(const auto& card : this->_cards)
+		{
+			points += (card.GetCard() & Rank::RankMask);
+		}
+		
+		return points;
+	}
+
+	if (this->TwoAces())
+	{
+		return TWO_ACE_POINT + this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0;
+	}
+
+	if (this->TwoSevens())
+	{
+		return TWO_ACE_POINT;
+	}
+
+	if (this->_isHasSevenClubs)
+	{
+		points += this->TwoCardsOfPip();
+		points += this->TwoCardsOfSuit();
+	}
+
+	if (points == 0)
+	{
+		points += this->ThreeDifferentCards();
+	}
+
+	return points + this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0;
 }
 
 bool Player::ThreeSevens()
@@ -28,9 +62,8 @@ bool Player::ThreeSevens()
 	bool result = true;
 
 	for (const auto& card : this->_cards)
-	{
-		bool f = (card.GetCard() & Pip::PipMask) == Pip::N7;
-		result = result && f;
+	{		
+		result = result && ((card.GetCard() & Pip::PipMask) == Pip::N7);
 	}
 
 	return result;
@@ -48,6 +81,103 @@ bool Player::ThreeOfAKind()
 	}
 
 	return result;
+}
+
+bool Player::ThreeOfTheSameSuit()
+{
+	bool result = true;
+
+	card_type check = this->_cards[0].GetCard() & Suit::SuitMask;
+
+	for (const auto& card : this->_cards)
+	{
+		result = result && ((card.GetCard() & Suit::SuitMask) == check);
+	}	
+
+	return result;
+}
+
+bool Player::TwoAces()
+{
+	int aceCount = 0;
+
+	for (const auto& card : this->_cards)
+	{
+		aceCount += ((card.GetCard() & Pip::PipMask) == Pip::A) ? 1 : 0;
+	}
+
+	return aceCount == 2;
+}
+
+bool Player::TwoSevens()
+{
+	int sevenCount = 0;
+
+	for (const auto& card : this->_cards)
+	{
+		sevenCount += ((card.GetCard() & Pip::PipMask) == Pip::N7) ? 1 : 0;
+	}
+
+	return sevenCount == 2;
+}
+
+int Player::TwoCardsOfPip()
+{
+	int result = 0;
+	card_type card1 = this->_cards[0].GetCard();
+	card_type card2 = this->_cards[0].GetCard();
+	card_type card3 = this->_cards[0].GetCard();
+
+	if ((card1 & Pip::PipMask) == (card2 & Pip::PipMask))
+	{
+		result = (card1 & Rank::RankMask);
+	}
+	else if ((card2 & Pip::PipMask) == (card3 & Pip::PipMask))
+	{
+		result = (card2 & Rank::RankMask);
+	}
+	else if ((card1 & Pip::PipMask) == (card3 & Pip::PipMask))
+	{
+		result = (card3 & Rank::RankMask);
+	}
+
+	return 2 * result;
+}
+
+int Player::TwoCardsOfSuit()
+{
+	int result = 0;
+	card_type card1 = this->_cards[0].GetCard();
+	card_type card2 = this->_cards[0].GetCard();
+	card_type card3 = this->_cards[0].GetCard();
+
+	if ((card1 & Suit::SuitMask) == (card2 & Suit::SuitMask))
+	{
+		result = (card1 & Rank::RankMask);
+	}
+	else if ((card2 & Suit::SuitMask) == (card3 & Suit::SuitMask))
+	{
+		result = (card2 & Suit::SuitMask);
+	}
+	else if ((card1 & Suit::SuitMask) == (card3 & Suit::SuitMask))
+	{
+		result = (card3 & Rank::RankMask);
+	}
+
+	return 2 * result;
+}
+
+int Player::ThreeDifferentCards()
+{
+	std::sort(this->_cards.begin(),
+			  this->_cards.end(),
+			  [](Card a, Card b)
+			  {
+				return (a.GetCard() & Rank::RankMask > b.GetCard() & Rank::RankMask);
+			  }
+	);
+
+	return this->_cards[0].GetCard() & Rank::RankMask;
 }
 
 Player::Player() :

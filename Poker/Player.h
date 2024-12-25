@@ -19,6 +19,12 @@ private:
 	int CalcPoints();
 	bool ThreeSevens();
 	bool ThreeOfAKind();
+	bool ThreeOfTheSameSuit();
+	bool TwoAces();
+	bool TwoSevens();
+	int TwoCardsOfPip();
+	int TwoCardsOfSuit();
+	int ThreeDifferentCards();
 
 public:
 	Player();

@@ -58,6 +58,9 @@ const size_t SUITS = 4;
 const int CARDS_COUNT = 3;
 
 const int MAX_POINT = 34;
+const int TWO_SEVEN_POINT = 23;
+const int TWO_ACE_POINT = 22;
+const int SEVEN_CLUBS_POINT = 11;
 
 const card_type pipsMatrix[PIPS_ROW][CARDS_COL] =
 {

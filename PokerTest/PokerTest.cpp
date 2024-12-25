@@ -184,5 +184,270 @@ namespace PokerTest
 
 			Assert::AreEqual(expectedPoints, player.GetPoints());
 		}
+
+		TEST_METHOD(ThreeDiamonds)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Diamonds | Rank::Ace | Pip::A);
+			Card card2 = Card(Suit::Diamonds | Rank::Jack | Pip::J);
+			Card card3 = Card(Suit::Diamonds | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 11 + 10 +7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Diamonds | Rank::Eight | Pip::N8);
+			card2 = Card(Suit::Diamonds | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Diamonds | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 8 + 9 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Diamonds | Rank::Jack | Pip::J);
+			card2 = Card(Suit::Diamonds | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Diamonds | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 10 + 10 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
+
+		TEST_METHOD(ThreeHearts)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			Card card2 = Card(Suit::Hearts | Rank::Jack | Pip::J);
+			Card card3 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 11 + 10 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Hearts | Rank::Eight | Pip::N8);
+			card2 = Card(Suit::Hearts | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 8 + 9 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Hearts | Rank::Jack | Pip::J);
+			card2 = Card(Suit::Hearts | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 10 + 10 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
+
+		TEST_METHOD(ThreeSpades)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Spades | Rank::Ace | Pip::A);
+			Card card2 = Card(Suit::Spades | Rank::Jack | Pip::J);
+			Card card3 = Card(Suit::Spades | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 11 + 10 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Eight | Pip::N8);
+			card2 = Card(Suit::Spades | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Spades | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 8 + 9 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Jack | Pip::J);
+			card2 = Card(Suit::Spades | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Spades | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 10 + 10 + 7;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
+
+		TEST_METHOD(ThreeClubs)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Clubs | Rank::Ace | Pip::A);
+			Card card2 = Card(Suit::Clubs | Rank::Jack | Pip::J);
+			Card card3 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 11 + 10 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Eight | Pip::N8);
+			card2 = Card(Suit::Clubs | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 8 + 9 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Jack | Pip::J);
+			card2 = Card(Suit::Clubs | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 10 + 10 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
+
+		TEST_METHOD(TwoAce)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Spades | Rank::Ace | Pip::A);
+			Card card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			Card card3 = Card(Suit::Clubs | Rank::Ten | Pip::N10);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 11 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Ace | Pip::A);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Diamonds | Rank::Queen | Pip::Q);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 11 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Ace | Pip::A);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Clubs | Rank::Nine | Pip::N9);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 11 + 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
 	};
 }
