@@ -449,5 +449,276 @@ namespace PokerTest
 
 			Assert::AreEqual(expectedPoints, player.GetPoints());
 		}
+
+		TEST_METHOD(SampleTests)
+		{
+			//sample 1
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+			Card card2 = Card(Suit::Diamonds | Rank::Nine | Pip::N9);
+			Card card3 = Card(Suit::Clubs | Rank::Nine | Pip::N9);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+
+			Player player = Player();
+
+			player.SetCards(cards);
+
+			int expectedPoints = 9;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+			
+			//sample 2
+			card1 = Card(Suit::Spades | Rank::Ten | Pip::N10);
+			card2 = Card(Suit::Diamonds | Rank::Ten | Pip::N10);
+			card3 = Card(Suit::Clubs | Rank::Ace | Pip::A);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 11;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			//sample 3
+			card1 = Card(Suit::Spades | Rank::Jack | Pip::J);
+			card2 = Card(Suit::Hearts | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Clubs | Rank::Ten | Pip::N10);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 10;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			cards.clear();
+
+			//sample 4
+			card1 = Card(Suit::Hearts | Rank::King | Pip::K);
+			card2 = Card(Suit::Hearts | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Clubs | Rank::Queen | Pip::Q);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 19;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 5
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Ace | Pip::A);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Clubs | Rank::Ten | Pip::N10);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 22;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 6
+
+			cards.clear();
+
+			card1 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card2 = Card(Suit::Hearts | Rank::King | Pip::K);
+			card3 = Card(Suit::Clubs | Rank::Ten | Pip::N10);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 21;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 7
+
+			cards.clear();
+
+			card1 = Card(Suit::Spades | Rank::Eight | Pip::N8);
+			card2 = Card(Suit::Diamonds | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 22;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 8
+
+			cards.clear();
+
+			card1 = Card(Suit::Hearts | Rank::Ten | Pip::N10);
+			card2 = Card(Suit::Hearts | Rank::Nine | Pip::N9);
+			card3 = Card(Suit::Hearts | Rank::Jack | Pip::J);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 29;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 9
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Queen | Pip::Q);
+			card2 = Card(Suit::Hearts | Rank::Queen | Pip::Q);
+			card3 = Card(Suit::Diamonds | Rank::Queen | Pip::Q);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 30;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 10
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+			card2 = Card(Suit::Hearts | Rank::King | Pip::K);
+			card3 = Card(Suit::Diamonds | Rank::King | Pip::K);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 31;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 11
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+			card2 = Card(Suit::Hearts | Rank::King | Pip::K);
+			card3 = Card(Suit::Diamonds | Rank::Queen | Pip::Q);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 21;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 12
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Diamonds | Rank::Queen | Pip::Q);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 22;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 13
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Hearts | Rank::King | Pip::K);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 32;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 14
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Seven | Pip::N7);
+			card2 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+			card3 = Card(Suit::Diamonds | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 34;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+
+			//sample 15
+
+			cards.clear();
+
+			card1 = Card(Suit::Clubs | Rank::Ace | Pip::A);
+			card2 = Card(Suit::Hearts | Rank::Ace | Pip::A);
+			card3 = Card(Suit::Diamonds | Rank::Ace | Pip::A);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			player.SetCards(cards);
+
+			expectedPoints = 33;
+
+			Assert::AreEqual(expectedPoints, player.GetPoints());
+		}
 	};
 }

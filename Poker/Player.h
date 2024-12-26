@@ -23,6 +23,7 @@ private:
 	bool TwoAces();
 	bool TwoSevens();
 	int TwoCardsOfPip();
+	int ThreeDifferentCardsWithSevenClubs();
 	int TwoCardsOfSuit();
 	int ThreeDifferentCards();
 

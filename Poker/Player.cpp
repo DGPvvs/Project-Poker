@@ -4,6 +4,8 @@
 #include "GlobalConstants.h"
 #include <algorithm>
 
+bool comparator(Card&, Card&);
+
 void Player::ClearCards()
 {
 	this->_cards.clear();
@@ -35,18 +37,25 @@ int Player::CalcPoints()
 
 	if (this->TwoAces())
 	{
-		return TWO_ACE_POINT + this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0;
+		int result = TWO_ACE_POINT + (this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0);
+		return result;
 	}
 
 	if (this->TwoSevens())
-	{
-		return TWO_ACE_POINT;
+	{		
+		return TWO_SEVEN_POINT;
 	}
 
-	if (this->_isHasSevenClubs)
+	points += this->TwoCardsOfSuit();
+
+	if ( points == 0 && this->_isHasSevenClubs)
 	{
-		points += this->TwoCardsOfPip();
-		points += this->TwoCardsOfSuit();
+		points = this->TwoCardsOfPip();
+
+		if (points == 0)
+		{
+			points = this->ThreeDifferentCardsWithSevenClubs();
+		}
 	}
 
 	if (points == 0)
@@ -54,7 +63,7 @@ int Player::CalcPoints()
 		points += this->ThreeDifferentCards();
 	}
 
-	return points + this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0;
+	return points + (this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0);
 }
 
 bool Player::ThreeSevens()
@@ -125,8 +134,8 @@ int Player::TwoCardsOfPip()
 {
 	int result = 0;
 	card_type card1 = this->_cards[0].GetCard();
-	card_type card2 = this->_cards[0].GetCard();
-	card_type card3 = this->_cards[0].GetCard();
+	card_type card2 = this->_cards[1].GetCard();
+	card_type card3 = this->_cards[2].GetCard();
 
 	if ((card1 & Pip::PipMask) == (card2 & Pip::PipMask))
 	{
@@ -144,38 +153,40 @@ int Player::TwoCardsOfPip()
 	return 2 * result;
 }
 
+int Player::ThreeDifferentCardsWithSevenClubs()
+{
+	std::sort(this->_cards.begin(), this->_cards.end(), comparator);
+	this->_cards.erase(this->_cards.begin());
+
+	return this->_cards[0].GetCard() & Rank::RankMask;
+}
+
 int Player::TwoCardsOfSuit()
 {
 	int result = 0;
 	card_type card1 = this->_cards[0].GetCard();
-	card_type card2 = this->_cards[0].GetCard();
-	card_type card3 = this->_cards[0].GetCard();
+	card_type card2 = this->_cards[1].GetCard();
+	card_type card3 = this->_cards[2].GetCard();
 
 	if ((card1 & Suit::SuitMask) == (card2 & Suit::SuitMask))
 	{
-		result = (card1 & Rank::RankMask);
+		result = (card1 & Rank::RankMask) + (card2 & Rank::RankMask);
 	}
 	else if ((card2 & Suit::SuitMask) == (card3 & Suit::SuitMask))
 	{
-		result = (card2 & Suit::SuitMask);
+		result = (card2 & Rank::RankMask) + (card3 & Rank::RankMask);
 	}
 	else if ((card1 & Suit::SuitMask) == (card3 & Suit::SuitMask))
 	{
-		result = (card3 & Rank::RankMask);
+		result = (card1 & Rank::RankMask) + (card3 & Rank::RankMask);
 	}
 
-	return 2 * result;
+	return result;
 }
 
 int Player::ThreeDifferentCards()
-{
-	std::sort(this->_cards.begin(),
-			  this->_cards.end(),
-			  [](Card a, Card b)
-			  {
-				return (a.GetCard() & Rank::RankMask > b.GetCard() & Rank::RankMask);
-			  }
-	);
+{	
+	std::sort(this->_cards.begin(), this->_cards.end(), comparator);
 
 	return this->_cards[0].GetCard() & Rank::RankMask;
 }
@@ -246,3 +257,10 @@ std::string Player::CardsAndRangeToString()
 
 	return result.append(std::to_string(this->GetPoints()));
 }
+
+bool comparator(Card& i, Card& j)
+{
+	card_type a = i.GetCard() & Rank::RankMask;
+	card_type b = j.GetCard() & Rank::RankMask;
+	return (a > b);
+};
