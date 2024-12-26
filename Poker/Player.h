@@ -17,11 +17,11 @@ private:
 
 	void ClearCards();
 	int CalcPoints();
-	bool ThreeSevens();
-	bool ThreeOfAKind();
-	bool ThreeOfTheSameSuit();
-	bool TwoAces();
-	bool TwoSevens();
+	int ThreeSevens();
+	int ThreeOfAKind();
+	int ThreeOfTheSameSuit();
+	int TwoAces();
+	int TwoSevens();
 	int TwoCardsOfPip();
 	int ThreeDifferentCardsWithSevenClubs();
 	int TwoCardsOfSuit();

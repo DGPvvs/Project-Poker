@@ -15,58 +15,20 @@ int Player::CalcPoints()
 {
 	int points = 0;
 
-	if (this->ThreeSevens())
-	{
-		return MAX_POINT;
-	}
+	points = std::max(points, this->ThreeSevens());
+	points = std::max(points, this->ThreeOfAKind());
+	points = std::max(points, this->ThreeOfTheSameSuit());
+	points = std::max(points, this->TwoAces());
+	points = std::max(points, this->TwoSevens());
+	points = std::max(points, this->TwoCardsOfSuit());
+	points = std::max(points, this->TwoCardsOfPip());
+	points = std::max(points, this->ThreeDifferentCardsWithSevenClubs());
+	points = std::max(points, this->ThreeDifferentCards());
 
-	if (this->ThreeOfAKind())
-	{
-		return 3 * (this->_cards[0].GetCard() & RankMask);
-	}
-
-	if (this->ThreeOfTheSameSuit())
-	{		
-		for(const auto& card : this->_cards)
-		{
-			points += (card.GetCard() & Rank::RankMask);
-		}
-		
-		return points;
-	}
-
-	if (this->TwoAces())
-	{
-		int result = TWO_ACE_POINT + (this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0);
-		return result;
-	}
-
-	if (this->TwoSevens())
-	{		
-		return TWO_SEVEN_POINT;
-	}
-
-	points += this->TwoCardsOfSuit();
-
-	if ( points == 0 && this->_isHasSevenClubs)
-	{
-		points = this->TwoCardsOfPip();
-
-		if (points == 0)
-		{
-			points = this->ThreeDifferentCardsWithSevenClubs();
-		}
-	}
-
-	if (points == 0)
-	{
-		points += this->ThreeDifferentCards();
-	}
-
-	return points + (this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0);
+	return points;
 }
 
-bool Player::ThreeSevens()
+int Player::ThreeSevens()
 {
 	bool result = true;
 
@@ -75,10 +37,10 @@ bool Player::ThreeSevens()
 		result = result && ((card.GetCard() & Pip::PipMask) == Pip::N7);
 	}
 
-	return result;
+	return result ? MAX_POINT : 0;
 }
 
-bool Player::ThreeOfAKind()
+int Player::ThreeOfAKind()
 {
 	card_type check = this->_cards[0].GetCard() & Pip::PipMask;
 
@@ -89,24 +51,33 @@ bool Player::ThreeOfAKind()
 		result = result && ((card.GetCard() & Pip::PipMask) == check);
 	}
 
-	return result;
+	return result ? (3 * (this->_cards[0].GetCard() & RankMask)) : 0;
 }
 
-bool Player::ThreeOfTheSameSuit()
+int Player::ThreeOfTheSameSuit()
 {
 	bool result = true;
+	int points = 0;
 
 	card_type check = this->_cards[0].GetCard() & Suit::SuitMask;
 
 	for (const auto& card : this->_cards)
 	{
 		result = result && ((card.GetCard() & Suit::SuitMask) == check);
-	}	
+	}
 
-	return result;
+	if (result)
+	{
+		for (const auto& card : this->_cards)
+		{
+			points += (card.GetCard() & Rank::RankMask);
+		}
+	}
+
+	return points;
 }
 
-bool Player::TwoAces()
+int Player::TwoAces()
 {
 	int aceCount = 0;
 
@@ -115,10 +86,10 @@ bool Player::TwoAces()
 		aceCount += ((card.GetCard() & Pip::PipMask) == Pip::A) ? 1 : 0;
 	}
 
-	return aceCount == 2;
+	return aceCount == 2 ? TWO_ACE_POINT : 0;
 }
 
-bool Player::TwoSevens()
+int Player::TwoSevens()
 {
 	int sevenCount = 0;
 
@@ -127,65 +98,99 @@ bool Player::TwoSevens()
 		sevenCount += ((card.GetCard() & Pip::PipMask) == Pip::N7) ? 1 : 0;
 	}
 
-	return sevenCount == 2;
+	return sevenCount == 2 ? TWO_SEVEN_POINT : 0;
 }
 
 int Player::TwoCardsOfPip()
 {
-	int result = 0;
-	card_type card1 = this->_cards[0].GetCard();
-	card_type card2 = this->_cards[1].GetCard();
-	card_type card3 = this->_cards[2].GetCard();
+	int points = 0;
+	if (this->_isHasSevenClubs)
+	{
+		card_type card1 = this->_cards[0].GetCard();
+		card_type card2 = this->_cards[1].GetCard();
+		card_type card3 = this->_cards[2].GetCard();
 
-	if ((card1 & Pip::PipMask) == (card2 & Pip::PipMask))
-	{
-		result = (card1 & Rank::RankMask);
-	}
-	else if ((card2 & Pip::PipMask) == (card3 & Pip::PipMask))
-	{
-		result = (card2 & Rank::RankMask);
-	}
-	else if ((card1 & Pip::PipMask) == (card3 & Pip::PipMask))
-	{
-		result = (card3 & Rank::RankMask);
-	}
+		if ((card1 & Pip::PipMask) == (card2 & Pip::PipMask))
+		{
+			points = (card1 & Rank::RankMask);
+		}
+		else if ((card2 & Pip::PipMask) == (card3 & Pip::PipMask))
+		{
+			points = (card2 & Rank::RankMask);
+		}
+		else if ((card1 & Pip::PipMask) == (card3 & Pip::PipMask))
+		{
+			points = (card3 & Rank::RankMask);
+		}
+		points = (2 * points) + SEVEN_CLUBS_POINT;
+	}	
 
-	return 2 * result;
+	return points;
 }
 
 int Player::ThreeDifferentCardsWithSevenClubs()
 {
-	std::sort(this->_cards.begin(), this->_cards.end(), comparator);
-	this->_cards.erase(this->_cards.begin());
+	int points = 0;
 
-	return this->_cards[0].GetCard() & Rank::RankMask;
+	if (this->_isHasSevenClubs && this->ThreeOfTheSameSuit() == 0)
+	{
+		Card sevenClubs;
+
+		size_t index = 0;
+		while (true)
+		{
+			sevenClubs = this->_cards[index];
+			card_type card = sevenClubs.GetCard();
+			if((card & Suit::SuitMask) == Suit::Clubs && (card & Pip::PipMask) == Pip::N7)
+			{
+				this->_cards.erase(this->_cards.begin() + index);
+				break;
+			}
+
+			index++;
+		}
+
+		std::sort(this->_cards.begin(), this->_cards.end(), comparator);		
+
+		points = (this->_cards[0].GetCard() & Rank::RankMask) + SEVEN_CLUBS_POINT;
+
+		this->_cards.push_back(sevenClubs);
+	}
+
+	return points;
 }
 
 int Player::TwoCardsOfSuit()
 {
-	int result = 0;
-	card_type card1 = this->_cards[0].GetCard();
-	card_type card2 = this->_cards[1].GetCard();
-	card_type card3 = this->_cards[2].GetCard();
+	int points = 0;
 
-	if ((card1 & Suit::SuitMask) == (card2 & Suit::SuitMask))
+	if (this->ThreeOfTheSameSuit() == 0)
 	{
-		result = (card1 & Rank::RankMask) + (card2 & Rank::RankMask);
-	}
-	else if ((card2 & Suit::SuitMask) == (card3 & Suit::SuitMask))
-	{
-		result = (card2 & Rank::RankMask) + (card3 & Rank::RankMask);
-	}
-	else if ((card1 & Suit::SuitMask) == (card3 & Suit::SuitMask))
-	{
-		result = (card1 & Rank::RankMask) + (card3 & Rank::RankMask);
-	}
+		card_type card1 = this->_cards[0].GetCard();
+		card_type card2 = this->_cards[1].GetCard();
+		card_type card3 = this->_cards[2].GetCard();
 
-	return result;
+		if ((card1 & Suit::SuitMask) == (card2 & Suit::SuitMask))
+		{
+			points = (card1 & Rank::RankMask) + (card2 & Rank::RankMask);
+		}
+		else if ((card2 & Suit::SuitMask) == (card3 & Suit::SuitMask))
+		{
+			points = (card2 & Rank::RankMask) + (card3 & Rank::RankMask);
+		}
+		else if ((card1 & Suit::SuitMask) == (card3 & Suit::SuitMask))
+		{
+			points = (card1 & Rank::RankMask) + (card3 & Rank::RankMask);
+		}
+
+		points = points + (this->_isHasSevenClubs ? SEVEN_CLUBS_POINT : 0);
+	}	
+
+	return points;
 }
 
 int Player::ThreeDifferentCards()
-{	
+{		
 	std::sort(this->_cards.begin(), this->_cards.end(), comparator);
 
 	return this->_cards[0].GetCard() & Rank::RankMask;

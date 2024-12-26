@@ -360,7 +360,8 @@ namespace PokerTest
 
 			player.SetCards(cards);
 
-			int expectedPoints = 11 + 10 + 11;
+			//int expectedPoints = 11 + 10 + 11;
+			int expectedPoints = 32;
 
 			Assert::AreEqual(expectedPoints, player.GetPoints());
 
@@ -376,7 +377,8 @@ namespace PokerTest
 
 			player.SetCards(cards);
 
-			expectedPoints = 8 + 9 + 11;
+			//expectedPoints = 8 + 9 + 11;
+			expectedPoints = 28;
 
 			Assert::AreEqual(expectedPoints, player.GetPoints());
 
@@ -392,7 +394,8 @@ namespace PokerTest
 
 			player.SetCards(cards);
 
-			expectedPoints = 10 + 10 + 11;
+			//expectedPoints = 10 + 10 + 11;
+			expectedPoints = 31;
 
 			Assert::AreEqual(expectedPoints, player.GetPoints());
 		}
@@ -467,9 +470,11 @@ namespace PokerTest
 
 			player.SetCards(cards);
 
+			int actualPoints = player.GetPoints();
+
 			int expectedPoints = 9;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			cards.clear();
 			
@@ -486,7 +491,9 @@ namespace PokerTest
 
 			expectedPoints = 11;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			cards.clear();
 
@@ -503,7 +510,9 @@ namespace PokerTest
 
 			expectedPoints = 10;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			cards.clear();
 
@@ -520,7 +529,9 @@ namespace PokerTest
 
 			expectedPoints = 19;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 5
 
@@ -538,7 +549,9 @@ namespace PokerTest
 
 			expectedPoints = 22;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 6
 
@@ -556,7 +569,9 @@ namespace PokerTest
 
 			expectedPoints = 21;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 7
 
@@ -574,7 +589,9 @@ namespace PokerTest
 
 			expectedPoints = 22;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 8
 
@@ -592,7 +609,9 @@ namespace PokerTest
 
 			expectedPoints = 29;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 9
 
@@ -610,7 +629,9 @@ namespace PokerTest
 
 			expectedPoints = 30;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 10
 
@@ -628,7 +649,9 @@ namespace PokerTest
 
 			expectedPoints = 31;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 11
 
@@ -646,7 +669,9 @@ namespace PokerTest
 
 			expectedPoints = 21;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 12
 
@@ -664,7 +689,9 @@ namespace PokerTest
 
 			expectedPoints = 22;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 13
 
@@ -682,7 +709,9 @@ namespace PokerTest
 
 			expectedPoints = 32;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 
 			//sample 14
 
@@ -718,7 +747,9 @@ namespace PokerTest
 
 			expectedPoints = 33;
 
-			Assert::AreEqual(expectedPoints, player.GetPoints());
+			actualPoints = player.GetPoints();
+
+			Assert::AreEqual(expectedPoints, actualPoints);
 		}
 	};
 }
