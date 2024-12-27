@@ -12,8 +12,11 @@ private:
 	std::string _name;
 	bool _isHasSevenClubs;
 	bool _isPlayerActive;
+
 	int _chips;
+	int _lastRaice;
 	int _currentPoints;
+
 
 	void ClearCards();
 	int CalcPoints();
@@ -35,6 +38,12 @@ public:
 
 	bool GetPlayerActive() const;
 	void SetPlayerActive(bool);
+
+	int GetLastRaise()const;
+	void SetLastRaise(int);
+
+	int GetChips()const;
+	void AddChips(int);
 
 	int GetPoints() const;
 

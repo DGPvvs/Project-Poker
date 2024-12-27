@@ -2,6 +2,12 @@
 
 #include "GlobalTypes.h"
 
+enum FileCondition
+{
+    OK,
+    Error
+};
+
 enum Pip
 {
     N7 = 0b100000000,
@@ -48,7 +54,7 @@ const bool SEVEN_CLUBS_PRESENT = true;
 const bool SEVEN_CLUBS_NOT_PRESENT = false;
 
 
-const int бЭВа_VALUE = 10;
+const int CHIP_VALUE = 10;
 const int START_POINTS = 100;
 
 const size_t PIPS_ROW = 2;

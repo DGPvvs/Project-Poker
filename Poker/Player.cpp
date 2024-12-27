@@ -200,7 +200,7 @@ Player::Player() :
 	_cards(std::vector<Card>()),
 	_isHasSevenClubs(SEVEN_CLUBS_NOT_PRESENT),
 	_isPlayerActive(ACTIVE_PLAYER),
-	_chips(бЭВа_VALUE * START_POINTS),
+	_chips(CHIP_VALUE * START_POINTS),
 	_currentPoints(0)
 {
 
@@ -224,6 +224,28 @@ bool Player::GetPlayerActive() const
 void Player::SetPlayerActive(bool activateFlag)
 {
 	this->_isPlayerActive = activateFlag;
+}
+
+int Player::GetLastRaise()const
+{
+	return this->_lastRaice;
+}
+
+void Player::SetLastRaise(int v)
+{
+	this->AddChips(this->_lastRaice);
+	this->_lastRaice = v;
+	this->AddChips(-v);
+}
+
+int Player::GetChips()const
+{
+	return this->_chips;
+}
+
+void Player::AddChips(int v)
+{
+	this->_chips += v;
 }
 
 int Player::GetPoints() const
