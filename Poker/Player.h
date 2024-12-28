@@ -33,6 +33,7 @@ private:
 public:
 	Player();
 	Player(std::string&);
+	Player(std::string&, int);
 
 	std::string GetName() const;
 
@@ -49,9 +50,6 @@ public:
 
 	void SetCards(std::vector<Card>&);
 
-	std::string CardsAndRangeToString();
-
-
-		
+	std::string CardsAndRangeToString();		
 };
 

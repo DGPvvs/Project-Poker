@@ -13,6 +13,9 @@
 
 int main()
 {
+    Game game = Game();
+    game.Run();
+
     std::vector<Card> cards = std::vector<Card>();
     Card card1 = Card(Pip::N7 & Suit::Diamonds);
     Card card2 = Card(Pip::N7 & Suit::Hearts);

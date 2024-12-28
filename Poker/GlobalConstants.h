@@ -47,6 +47,8 @@ enum Rank
 const int MIN_PLAYERS = 2;
 const int MAX_PLAYERS = 9;
 
+const std::string  WARNING = "Enter correct data!";
+
 const bool ACTIVE_PLAYER = true;
 const bool INACTIVE_PLAYER = false;
 

@@ -1,5 +1,6 @@
 #pragma once
-#include "Common.h"
+#include <string>
+
 #include "GlobalConstants.h"
 
 class Card
@@ -20,4 +21,3 @@ public:
     std::string ToString();
     static std::string ToString(card_type& card);
 };
-

@@ -9,9 +9,9 @@ class Game
 {
 private:
 	std::vector<Player> _players;
-	std::vector<Card> _cards;
+	std::vector<Card> _cardDeks;
 	int _pot;
-	int _lastRaise;
+	int _lastGameRaise;
 
 	FileCondition ReadFromFile();
 	FileCondition SaveToFile();
@@ -19,6 +19,9 @@ private:
 	void InitDeks();
 	void InitPlayers(int);
 	void SetNewGame();
+	void ChoisNewGame();
+	void ClearGame();
+	void ClearDeal();
 
 public:
 	Game();

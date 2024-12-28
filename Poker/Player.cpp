@@ -201,7 +201,8 @@ Player::Player() :
 	_isHasSevenClubs(SEVEN_CLUBS_NOT_PRESENT),
 	_isPlayerActive(ACTIVE_PLAYER),
 	_chips(CHIP_VALUE * START_POINTS),
-	_currentPoints(0)
+	_currentPoints(0),
+	_lastRaice(0)
 {
 
 }
@@ -209,6 +210,11 @@ Player::Player() :
 Player::Player(std::string& name) : Player::Player()
 {
 	this->_name = name;
+}
+
+Player::Player(std::string& name, int chips) : Player::Player(name)
+{
+	this->_chips = chips;
 }
 
 std::string Player::GetName() const
