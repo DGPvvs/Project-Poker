@@ -15,13 +15,16 @@ private:
 
 	FileCondition ReadFromFile();
 	FileCondition SaveToFile();
-	void GameLoop();
+	GameCondition GameLoop();
 	void InitDeks();
 	void InitPlayers(int);
 	void SetNewGame();
 	void ChoisNewGame();
 	void ClearGame();
 	void ClearDeal();
+	void DealStart();
+	GameCondition DealLoop();
+	void ActualPlayerList();
 
 public:
 	Game();
