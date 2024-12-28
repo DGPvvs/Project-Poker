@@ -2,6 +2,15 @@
 
 #include "GlobalTypes.h"
 
+enum PlayerCondition
+{
+    Unactive = 0,
+    Active = 0b00000001,
+    Fold = Active << 1,
+    Call = Fold << 1,
+    Raise = Call << 1
+};
+
 enum GameCondition
 {
     Win,

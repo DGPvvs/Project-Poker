@@ -3,6 +3,9 @@
 #include "SetDesk.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+
+bool PlayerComp(Player&, Player&);
 
 FileCondition Game::ReadFromFile()
 {
@@ -56,8 +59,26 @@ void Game::ClearGame()
 void Game::ClearDeal()
 {
 	this->_cardDeks.clear();
+	while (!this->_playersQu.empty())
+	{
+		this->_playersQu.pop();
+	}
+
 	this->_pot = 0;
 	this->_lastGameRaise = 0;
+}
+
+int Game::FindPlayerIndex(int id) const
+{
+	for (size_t i = 0; i < this->_players.size(); i++)
+	{
+		if (this->_players[i].GetId() == id)
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 void Game::DealStart()
@@ -68,7 +89,7 @@ void Game::DealStart()
 
 	for (auto& player : this->_players)
 	{
-		if (player.GetPlayerActive())
+		if ((player.GetPlayerCondition() & PlayerCondition::Active) == PlayerCondition :: Active)
 		{
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
@@ -76,8 +97,14 @@ void Game::DealStart()
 			std::cout << player.GetName() << ": " << player.GetChips() << std::endl;
 
 			player.SetCards(this->_cardDeks);
+			this->_playersQu.push(player.GetId());
 		}
 	}
+}
+
+void Game::DealPlay()
+{
+
 }
 
 GameCondition Game::GameLoop()
@@ -116,7 +143,7 @@ GameCondition Game::DealLoop()
 	int activeCount = 0;
 	for (auto& player : this->_players)
 	{
-		bool active = player.GetPlayerActive();
+		bool active = ((player.GetPlayerCondition() & PlayerCondition::Active) == PlayerCondition::Active);
 
 		activeCount += active ? 1 : 0;
 	}
@@ -124,9 +151,12 @@ GameCondition Game::DealLoop()
 	if (activeCount == 1)
 	{
 		return GameCondition::DealEnd;
-	}	
+	}
+
+	std::sort(this->_players.begin(), this->_players.end(), PlayerComp);
 
 	this->DealStart();
+	this->DealPlay();
 
 	//TODO: GamePlay
 
@@ -156,9 +186,9 @@ void Game::ChoisNewGame()
 
 	auto f = this->ReadFromFile();
 
-	bool choisFlag = (s == "c" || s == "C") && (f == FileCondition::Error);
+	bool choisFlag = (s == "c" || s == "C") && (f == FileCondition::OK);
 
-	if (choisFlag)
+	if (!choisFlag)
 	{
 		this->SetNewGame();		
 	}
@@ -167,6 +197,7 @@ void Game::ChoisNewGame()
 Game::Game() :
 	_players(std::vector<Player>()),
 	_cardDeks(std::vector<Card>()),
+	_playersQu(std::queue<int>()),
 	_lastGameRaise(0),
 	_pot(0)
 {
@@ -184,9 +215,9 @@ void Game::InitPlayers(int playersNum)
 
 	for (int i = 1; i <= playersNum; i++)
 	{
-		std::string playerName = "Player" + i;
+		std::string playerName = std::string().append("Player").append(std::to_string(i));
 
-		Player player = Player(playerName);
+		Player player = Player(playerName, i);
 
 		this->_players.push_back(player);
 	}
@@ -235,3 +266,8 @@ void Game::Run()
 		this->SaveToFile();
 	}	
 }
+
+bool PlayerComp(Player& a, Player& b)
+{	
+	return (a.GetId() < b.GetId());
+};

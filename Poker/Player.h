@@ -11,11 +11,12 @@ private:
 	std::vector<Card> _cards;
 	std::string _name;
 	bool _isHasSevenClubs;
-	bool _isPlayerActive;
+	player_condition_type _isPlayerActive;
 
 	int _chips;
 	int _lastRaice;
 	int _currentPoints;
+	int _id;
 
 
 	void ClearCards();
@@ -32,13 +33,15 @@ private:
 
 public:
 	Player();
-	Player(std::string&);
+	Player(int);
 	Player(std::string&, int);
+	Player(std::string&, int, int);
 
 	std::string GetName() const;
+	int GetId() const;
 
-	bool GetPlayerActive() const;
-	void SetPlayerActive(bool);
+	player_condition_type GetPlayerCondition() const;
+	void SetPlayerActive(player_condition_type);
 
 	int GetLastRaise()const;
 	void SetLastRaise(int);
@@ -46,7 +49,7 @@ public:
 	int GetChips()const;
 	void AddChips(int);
 
-	int GetPoints() const;
+	int GetPoints() const;	
 
 	void SetCards(std::vector<Card>&);
 

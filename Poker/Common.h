@@ -4,12 +4,14 @@
 
 #include "GlobalTypes.h"
 #include "Player.h"
+#include <queue>
 
 class Game
 {
 private:
 	std::vector<Player> _players;
 	std::vector<Card> _cardDeks;
+	std::queue<int> _playersQu;
 	int _pot;
 	int _lastGameRaise;
 
@@ -25,6 +27,8 @@ private:
 	void DealStart();
 	GameCondition DealLoop();
 	void ActualPlayerList();
+	void DealPlay();
+	int FindPlayerIndex(int) const;
 
 public:
 	Game();

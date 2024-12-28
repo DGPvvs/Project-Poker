@@ -42,14 +42,14 @@ int main()
     std::cout << "cardDesk size = " << cardDesk.size() << std::endl;
 
     std::string namePlayer1 = "My";
-    Player player1(namePlayer1);
+    Player player1(namePlayer1, 1);
 
     player1.SetCards(cardDesk);
 
     std::cout << player1.CardsAndRangeToString() << std::endl;
 
     
-    Player player2(namePlayer1);
+    Player player2(namePlayer1, 1);
 
     player2.SetCards(cardDesk);
 

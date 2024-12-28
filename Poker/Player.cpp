@@ -199,7 +199,7 @@ int Player::ThreeDifferentCards()
 Player::Player() :
 	_cards(std::vector<Card>()),
 	_isHasSevenClubs(SEVEN_CLUBS_NOT_PRESENT),
-	_isPlayerActive(ACTIVE_PLAYER),
+	_isPlayerActive(PlayerCondition::Active),
 	_chips(CHIP_VALUE * START_POINTS),
 	_currentPoints(0),
 	_lastRaice(0)
@@ -207,12 +207,17 @@ Player::Player() :
 
 }
 
-Player::Player(std::string& name) : Player::Player()
+Player::Player(int id) : Player::Player()
+{
+	this->_id = id;
+}
+
+Player::Player(std::string& name, int id) : Player::Player(id)
 {
 	this->_name = name;
 }
 
-Player::Player(std::string& name, int chips) : Player::Player(name)
+Player::Player(std::string& name, int chips, int id) : Player::Player(name, id)
 {
 	this->_chips = chips;
 }
@@ -222,14 +227,19 @@ std::string Player::GetName() const
 	return this->_name;
 }
 
-bool Player::GetPlayerActive() const
+int Player::GetId() const
+{
+	return this->_id;
+}
+
+player_condition_type Player::GetPlayerCondition() const
 {
 	return this->_isPlayerActive;
 }
 
-void Player::SetPlayerActive(bool activateFlag)
+void Player::SetPlayerActive(player_condition_type activateFlags)
 {
-	this->_isPlayerActive = activateFlag;
+	this->_isPlayerActive = activateFlags;
 }
 
 int Player::GetLastRaise()const
