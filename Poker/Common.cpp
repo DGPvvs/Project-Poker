@@ -118,7 +118,7 @@ void Game::DealStart()
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
 
-			std::cout << player.GetName() << ": " << player.GetChips() << std::endl;
+			std::cout << player.GetName() << ": " << player.GetChips() << std::endl << std::endl;
 
 			player.SetCards(this->_cardDeks);
 			this->_playersQu.push(player.GetId());
@@ -129,7 +129,7 @@ void Game::DealStart()
 void Game::DealPlay()
 {
 	int currentCall = 0;
-	while ((this->_playersQu.size() > 1) || currentCall < this->_playersQu.size() - 1)
+	while ((this->_playersQu.size() > 1) && currentCall < this->_playersQu.size() - 1)
 	{
 		this->_currentMaxRaise = this->CalcMaxRaise();
 
@@ -141,45 +141,142 @@ void Game::DealPlay()
 		int idx = this->FindPlayerIndex(id);
 		Player& player = this->_players[idx];
 
-		std::cout << "You have given: " << player.GetLastRaise() << std::endl;
-		std::cout << "Last raise is: " << this->_lastGameRaise << std::endl << std::endl;
-		std::cout << player.CardsAndRangeToString() << std::endl;
-		std::cout << player.GetName() << " raise, call or fold? r/c/f: ";
-
-		std::string s;
-		std::getline(std::cin, s);
-
-		if (s == "f" || s == "F")
+		bool isCorrect = false;
+		while (!isCorrect)
 		{
-			auto flag = player.GetPlayerCondition();
-			flag = flag & (~PlayerCondition::Active);
-			flag = flag | PlayerCondition::Fold;
-			player.SetPlayerActive(flag);
+			std::cout << "You have given: " << player.GetLastRaise() << std::endl;
+			std::cout << "Last raise is: " << this->_lastGameRaise << std::endl << std::endl;
+			std::cout << player.CardsAndRangeToString() << std::endl;
+			if (player.GetLastRaise() != 0)
+			{
+				std::cout << player.GetName() << " raise, call or fold? r/c/f: ";
+			}
+			else
+			{
+				std::cout << player.GetName() << " raise or fold? r/f: ";
+			}
+
+			std::string s;
+			std::getline(std::cin, s);
+			std::cout << std::endl;
+
+			if (s == "f" || s == "F")
+			{
+				auto flag = player.GetPlayerCondition();
+				flag = flag & (~PlayerCondition::Active);
+				flag = flag | PlayerCondition::Fold;
+				player.SetPlayerActive(flag);
+				isCorrect = true;
+			}
+			else if ((s == "c" || s == "C") && (player.GetLastRaise() != 0))
+			{
+				this->_playersQu.push(id);
+				currentCall++;
+				int lastPlayerRaise = player.GetLastRaise();
+				int pays = this->_lastGameRaise - lastPlayerRaise;
+
+				player.SetLastRaise(this->_lastGameRaise);
+
+				player.AddChips(-pays);
+				isCorrect = true;
+			}
+			else if (s == "r" || s == "R")
+			{
+				this->_playersQu.push(id);
+				
+				bool isCorrectPay = false;
+				int paymentAmount;
+
+				while (!isCorrectPay)
+				{
+					std::cout << player.GetName() << " pay: (" << this->_lastGameRaise + 10 << " - " << this->_currentMaxRaise << "): ";
+					std::getline(std::cin, s);
+					std::cout << std::endl;
+
+					try
+					{
+						paymentAmount = stoi(s);
+						if ((paymentAmount >= this->_lastGameRaise + 10) && paymentAmount <= this->_currentMaxRaise)
+						{
+							isCorrectPay = true;
+						}
+					}
+					catch (const std::exception&)
+					{
+						isCorrectPay = false;
+					}
+				}
+
+				player.SetLastRaise(paymentAmount);
+				player.AddChips(-paymentAmount);
+
+				this->_pot += paymentAmount;
+				this->_lastGameRaise = paymentAmount;
+
+				isCorrect = true;
+				currentCall = 0;
+			}
+		}		
+	}
+}
+
+void Game::DeterminingWinner()
+{
+	int maxPoint = 0;
+	int idx, id;
+	std::vector<int> winnersIdx = std::vector<int>();
+
+	while (!this->_playersQu.empty())
+	{
+		winnersIdx.push_back(this->_playersQu.front());
+		this->_playersQu.pop();
+	}
+
+	for (auto id : winnersIdx)
+	{
+		idx = this->FindPlayerIndex(id);
+		if (this->_players[idx].GetPoints() > maxPoint)
+		{
+			maxPoint = this->_players[idx].GetPoints();
 		}
-		else if (s == "c" || s == "C")
-		{
-			this->_playersQu.push(id);
-			currentCall++;
-			int lastPlayerRaise = player.GetLastRaise();
-			int pays = this->_lastGameRaise - lastPlayerRaise;
+	}
 
-			player.SetLastRaise(this->_lastGameRaise);
+	for (int i = winnersIdx.size() - 1; i >= 0; i--)
+	{
+		id = winnersIdx[i];
+		idx = this->FindPlayerIndex(id);
 
-			player.AddChips(-pays);
-		}
-		else if (s == "r" || s == "R")
+		if (this->_players[idx].GetPoints() != maxPoint)
 		{
+			winnersIdx.erase(winnersIdx.begin() + i);
 			this->_playersQu.push(id);
 		}
 	}
-	
 
+	if (winnersIdx.size() > 1)
+	{
+		//TODO:
 
+	}
+	else
+	{
+		id = winnersIdx[0];
+		idx = this->FindPlayerIndex(id);
+		this->_players[idx].AddChips(this->_pot);
+		this->_players[idx].SetLastRaise(0);
+		this->_players[idx].SetPlayerActive(PlayerCondition::Active);
+		this->_pot = 0;
+		this->_lastGameRaise = 0;
 
-
-
-
-
+		while (!this->_playersQu.empty())
+		{
+			id = this->_playersQu.front();
+			idx = this->FindPlayerIndex(id);
+			this->_playersQu.pop();			
+			this->_players[idx].SetLastRaise(0);
+			this->_players[idx].SetPlayerActive(PlayerCondition::Fold);
+		}
+	}
 }
 
 GameCondition Game::GameLoop()
@@ -232,10 +329,11 @@ GameCondition Game::DealLoop()
 
 	this->DealStart();
 	this->DealPlay();
+	this->DeterminingWinner();
 
 	//TODO: GamePlay
 
-	this->DealLoop();
+	return this->DealLoop();
 }
 
 void Game::ActualPlayerList()
@@ -244,9 +342,13 @@ void Game::ActualPlayerList()
 	while (index > 0)
 	{
 		int balance = this->_players[index - 1].GetChips();
-		if (balance <= 0)
+		if (balance <= 10)
 		{
 			this->_players.erase(this->_players.begin() + index - 1);
+		}
+		else
+		{
+			this->_players[index - 1].SetPlayerActive(PlayerCondition::Active);
 		}
 
 		index--;

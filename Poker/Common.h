@@ -31,6 +31,7 @@ private:
 	void DealPlay();
 	int FindPlayerIndex(int) const;
 	int CalcMaxRaise();
+	void DeterminingWinner();
 
 public:
 	Game();
