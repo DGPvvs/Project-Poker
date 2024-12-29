@@ -14,6 +14,7 @@ private:
 	std::queue<int> _playersQu;
 	int _pot;
 	int _lastGameRaise;
+	int _currentMaxRaise;
 
 	FileCondition ReadFromFile();
 	FileCondition SaveToFile();
@@ -29,6 +30,7 @@ private:
 	void ActualPlayerList();
 	void DealPlay();
 	int FindPlayerIndex(int) const;
+	int CalcMaxRaise();
 
 public:
 	Game();

@@ -202,7 +202,8 @@ Player::Player() :
 	_isPlayerActive(PlayerCondition::Active),
 	_chips(CHIP_VALUE * START_POINTS),
 	_currentPoints(0),
-	_lastRaice(0)
+	_lastRaice(0),
+	_id(0)
 {
 
 }
@@ -248,10 +249,8 @@ int Player::GetLastRaise()const
 }
 
 void Player::SetLastRaise(int v)
-{
-	this->AddChips(this->_lastRaice);
+{	
 	this->_lastRaice = v;
-	this->AddChips(-v);
 }
 
 int Player::GetChips()const

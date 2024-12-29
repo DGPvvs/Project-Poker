@@ -29,7 +29,10 @@ FileCondition Game::ReadFromFile()
 				getline(f, s);
 				int chips = stoi(s);
 
-				this->_players.push_back(Player(name, chips));
+				getline(f, s);
+				int id = stoi(s);
+
+				this->_players.push_back(Player(name, chips, id));
 			}			
 		}
 	}
@@ -81,6 +84,27 @@ int Game::FindPlayerIndex(int id) const
 	return -1;
 }
 
+int Game::CalcMaxRaise()
+{
+	int maxRaise = INT_MAX;
+	int count = this->_playersQu.size();
+
+	for (int i = 0; i < count; i++)
+	{
+		int id = this->_playersQu.front();
+		this->_playersQu.pop();
+		this->_playersQu.push(id);
+		int idx = this->FindPlayerIndex(id);
+
+		if (this->_players[idx].GetChips() < maxRaise)
+		{
+			maxRaise = this->_players[idx].GetChips();
+		}
+	}
+
+	return maxRaise;
+}
+
 void Game::DealStart()
 {
 	this->ClearDeal();
@@ -104,6 +128,57 @@ void Game::DealStart()
 
 void Game::DealPlay()
 {
+	int currentCall = 0;
+	while ((this->_playersQu.size() > 1) || currentCall < this->_playersQu.size() - 1)
+	{
+		this->_currentMaxRaise = this->CalcMaxRaise();
+
+		int id = this->_playersQu.front();
+		this->_playersQu.pop();
+
+		std::cout << "Pot: " << this->_pot << std::endl << std::endl;
+
+		int idx = this->FindPlayerIndex(id);
+		Player& player = this->_players[idx];
+
+		std::cout << "You have given: " << player.GetLastRaise() << std::endl;
+		std::cout << "Last raise is: " << this->_lastGameRaise << std::endl << std::endl;
+		std::cout << player.CardsAndRangeToString() << std::endl;
+		std::cout << player.GetName() << " raise, call or fold? r/c/f: ";
+
+		std::string s;
+		std::getline(std::cin, s);
+
+		if (s == "f" || s == "F")
+		{
+			auto flag = player.GetPlayerCondition();
+			flag = flag & (~PlayerCondition::Active);
+			flag = flag | PlayerCondition::Fold;
+			player.SetPlayerActive(flag);
+		}
+		else if (s == "c" || s == "C")
+		{
+			this->_playersQu.push(id);
+			currentCall++;
+			int lastPlayerRaise = player.GetLastRaise();
+			int pays = this->_lastGameRaise - lastPlayerRaise;
+
+			player.SetLastRaise(this->_lastGameRaise);
+
+			player.AddChips(-pays);
+		}
+		else if (s == "r" || s == "R")
+		{
+			this->_playersQu.push(id);
+		}
+	}
+	
+
+
+
+
+
+
 
 }
 
@@ -199,7 +274,8 @@ Game::Game() :
 	_cardDeks(std::vector<Card>()),
 	_playersQu(std::queue<int>()),
 	_lastGameRaise(0),
-	_pot(0)
+	_pot(0),
+	_currentMaxRaise(0)
 {
 
 }
