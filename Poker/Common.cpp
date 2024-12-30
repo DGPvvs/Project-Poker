@@ -129,6 +129,8 @@ void Game::DealStart()
 void Game::DealPlay()
 {
 	int currentCall = 0;
+	bool isFirst = true;
+
 	while ((this->_playersQu.size() > 1) && currentCall < this->_playersQu.size() - 1)
 	{
 		this->_currentMaxRaise = this->CalcMaxRaise();
@@ -142,25 +144,34 @@ void Game::DealPlay()
 		Player& player = this->_players[idx];
 
 		bool isCorrect = false;
+		
 		while (!isCorrect)
 		{
+			player_condition_type ChoiceMade = PlayerCondition::Unactive;
 			std::cout << "You have given: " << player.GetLastRaise() << std::endl;
 			std::cout << "Last raise is: " << this->_lastGameRaise << std::endl << std::endl;
 			std::cout << player.CardsAndRangeToString() << std::endl;
-			if (player.GetLastRaise() != 0)
+			if (isFirst)
 			{
-				std::cout << player.GetName() << " raise, call or fold? r/c/f: ";
+				std::cout << player.GetName() << " raise or fold? r/f: ";
+				ChoiceMade = PlayerCondition::Raise | PlayerCondition::Fold;
+			}
+			else if(this->_currentMaxRaise <= this->_lastGameRaise)
+			{
+				std::cout << player.GetName() << " call or fold? c/f: ";				
+				ChoiceMade = PlayerCondition::Fold | PlayerCondition::Call;
 			}
 			else
 			{
-				std::cout << player.GetName() << " raise or fold? r/f: ";
+				std::cout << player.GetName() << " raise, call or fold? r/c/f: ";
+				ChoiceMade = PlayerCondition::Raise | PlayerCondition::Fold | PlayerCondition::Call;
 			}
 
 			std::string s;
 			std::getline(std::cin, s);
 			std::cout << std::endl;
 
-			if (s == "f" || s == "F")
+			if ((s == "f" || s == "F") && (ChoiceMade & PlayerCondition::Fold) == PlayerCondition::Fold)
 			{
 				auto flag = player.GetPlayerCondition();
 				flag = flag & (~PlayerCondition::Active);
@@ -168,7 +179,7 @@ void Game::DealPlay()
 				player.SetPlayerActive(flag);
 				isCorrect = true;
 			}
-			else if ((s == "c" || s == "C") && (player.GetLastRaise() != 0))
+			else if ((s == "c" || s == "C") && !isFirst && (ChoiceMade & PlayerCondition::Call) == PlayerCondition::Call)
 			{
 				this->_playersQu.push(id);
 				currentCall++;
@@ -180,7 +191,7 @@ void Game::DealPlay()
 				player.AddChips(-pays);
 				isCorrect = true;
 			}
-			else if (s == "r" || s == "R")
+			else if ((s == "r" || s == "R") && (ChoiceMade & PlayerCondition::Raise) == PlayerCondition::Raise)
 			{
 				this->_playersQu.push(id);
 				
@@ -206,6 +217,8 @@ void Game::DealPlay()
 						isCorrectPay = false;
 					}
 				}
+
+				isFirst = false;
 
 				player.SetLastRaise(paymentAmount);
 				player.AddChips(-paymentAmount);
