@@ -67,8 +67,11 @@ const int MAX_PLAYERS = 9;
 const std::string  WARNING = "Enter correct data!";
 const std::string  FILE_NAME = "pockergame.txt";
 
-const bool ACTIVE_PLAYER = true;
-const bool INACTIVE_PLAYER = false;
+//const bool ACTIVE_PLAYER = true;
+//const bool INACTIVE_PLAYER = false;
+
+const bool FIRST_DEAL = true;
+const bool CONTINUE_DEAL = false;
 
 const bool SEVEN_CLUBS_PRESENT = true;
 const bool SEVEN_CLUBS_NOT_PRESENT = false;
@@ -76,6 +79,7 @@ const bool SEVEN_CLUBS_NOT_PRESENT = false;
 
 const int CHIP_VALUE = 10;
 const int START_POINTS = 100;
+const int CHIPS_ADD_VALUE = 50;
 
 const size_t PIPS_ROW = 2;
 const size_t CARDS_COL = 8;

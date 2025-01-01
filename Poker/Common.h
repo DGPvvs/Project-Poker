@@ -23,10 +23,10 @@ private:
 	void InitPlayers(int);
 	void SetNewGame();
 	void ChoisNewGame();
-	void ClearGame();
-	void ClearDeal();
-	void DealStart();
-	GameCondition DealLoop();
+	void ClearGame(bool);
+	void ClearDeal(bool);
+	void DealStart(bool);
+	GameCondition DealLoop(bool);
 	void ActualPlayerList();
 	void DealPlay();
 	int FindPlayerIndex(int) const;
