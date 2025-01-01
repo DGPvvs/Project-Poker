@@ -306,7 +306,7 @@ void Game::DeterminingWinner()
 			this->_playersQu.pop();
 			idx = this->FindPlayerIndex(id);
 
-			int halfPot = std::ceil(1.0 * this->_pot / 2) + 10;
+			int halfPot = std::ceil(1.0 * this->_pot / 2) + CHIP_VALUE;
 			if (this->_players[idx].GetChips() <= halfPot)
 			{
 				this->_players[idx].SetPlayerActive(PlayerCondition::Fold);
