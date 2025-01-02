@@ -332,6 +332,7 @@ void Game::DeterminingWinner()
 					else if (s == "n" || s == "N")
 					{
 						this->_players[idx].SetPlayerActive(PlayerCondition::Fold);
+						this->_players[idx].SetLastRaise(0);
 						isCorrect = true;
 					}
 				}				
@@ -429,6 +430,7 @@ void Game::ActualPlayerList()
 		else
 		{
 			this->_players[index - 1].SetPlayerActive(PlayerCondition::Active);
+			this->_players[index - 1].SetLastRaise(0);
 		}
 
 		index--;
