@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "GlobalTypes.h"
 
 enum PlayerCondition
@@ -66,9 +68,6 @@ const int MAX_PLAYERS = 9;
 
 const std::string  WARNING = "Enter correct data!";
 const std::string  FILE_NAME = "pockergame.txt";
-
-//const bool ACTIVE_PLAYER = true;
-//const bool INACTIVE_PLAYER = false;
 
 const bool FIRST_DEAL = true;
 const bool CONTINUE_DEAL = false;

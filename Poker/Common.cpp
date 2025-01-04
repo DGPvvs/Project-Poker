@@ -212,6 +212,7 @@ void Game::DealPlay()
 				player.SetLastRaise(this->_lastGameRaise);
 
 				player.AddChips(-pays);
+				this->_pot += pays;
 				isCorrect = true;
 			}
 			else if ((s == "r" || s == "R") && (ChoiceMade & PlayerCondition::Raise) == PlayerCondition::Raise)
@@ -306,8 +307,8 @@ void Game::DeterminingWinner()
 			this->_playersQu.pop();
 			idx = this->FindPlayerIndex(id);
 
-			int halfPot = std::ceil(1.0 * this->_pot / 2) + CHIP_VALUE;
-			if (this->_players[idx].GetChips() <= halfPot)
+			int halfPot = std::ceil(1.0 * this->_pot / 2);
+			if (this->_players[idx].GetChips() <= (halfPot + CHIP_VALUE))
 			{
 				this->_players[idx].SetPlayerActive(PlayerCondition::Fold);
 			}

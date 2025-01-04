@@ -9,12 +9,16 @@
 #include "Common.h"
 #include "Card.h"
 #include "Player.h"
+#include "GamePlay.h"
 
 
 int main()
 {
-    Game game = Game();
+    GamePlay game = GamePlay(); // Разиграването е реализирано с помоща на указатели към играча
+    //Game game = Game(); // Разиграването е реализирано с помоща на id на играча
+    
     game.Run();
+
 
     return 0;    
 }
