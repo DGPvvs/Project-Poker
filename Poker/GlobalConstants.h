@@ -69,6 +69,9 @@ const int MAX_PLAYERS = 9;
 const std::string  WARNING = "Enter correct data!";
 const std::string  FILE_NAME = "pockergame.txt";
 
+const bool DEAL_PLAY = true;
+const bool NOT_DEAL_PLAY = false;
+
 const bool FIRST_DEAL = true;
 const bool CONTINUE_DEAL = false;
 

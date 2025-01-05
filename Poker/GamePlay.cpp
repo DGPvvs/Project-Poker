@@ -219,11 +219,13 @@ void GamePlay::ClearDeal(bool dealFlag)
 	this->_lastGameRaise = 0;
 }
 
-void GamePlay::DealStart(bool dealFlag)
+bool GamePlay::DealStart(bool dealFlag)
 {
 	this->ClearDeal(dealFlag);
 
 	SetUpCardDesk(this->_cardDecks);
+
+	bool result = NOT_DEAL_PLAY;
 
 	for (auto& player : this->_players)
 	{
@@ -232,12 +234,16 @@ void GamePlay::DealStart(bool dealFlag)
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
 
+			result = result || ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
+
 			std::cout << player.GetName() << ": " << player.GetChips() << std::endl << std::endl;
 
 			player.SetCards(this->_cardDecks);
 			this->_playersQu.push(&player);
 		}
 	}
+
+	return result;
 }
 
 GameCondition GamePlay::DealLoop(bool dealFlag)
@@ -255,8 +261,10 @@ GameCondition GamePlay::DealLoop(bool dealFlag)
 		return GameCondition::DealEnd;
 	}
 
-	this->DealStart(dealFlag);
-	this->DealPlay();
+	if (this->DealStart(dealFlag))
+	{
+		this->DealPlay();
+	}
 	this->DeterminingWinner();
 
 	return this->DealLoop(CONTINUE_DEAL);
@@ -268,7 +276,7 @@ void GamePlay::ActualPlayerList()
 	while (index >= 0)
 	{
 		int balance = this->_players[index].GetChips();
-		if (balance <= CHIP_VALUE)
+		if (balance < CHIP_VALUE)
 		{
 			this->_players.erase(this->_players.begin() + index);
 		}

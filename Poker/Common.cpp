@@ -128,11 +128,13 @@ int Game::CalcMaxRaise()
 	return maxRaise;
 }
 
-void Game::DealStart(bool dealFlag)
+bool Game::DealStart(bool dealFlag)
 {
 	this->ClearDeal(dealFlag);
 
 	SetUpCardDesk(this->_cardDeks);
+
+	bool result = NOT_DEAL_PLAY;
 
 	for (auto& player : this->_players)
 	{
@@ -141,12 +143,16 @@ void Game::DealStart(bool dealFlag)
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
 
+			result = result || ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
+
 			std::cout << player.GetName() << ": " << player.GetChips() << std::endl << std::endl;
 
 			player.SetCards(this->_cardDeks);
 			this->_playersQu.push(player.GetId());
 		}
 	}
+
+	return result;
 }
 
 void Game::DealPlay()
@@ -411,8 +417,10 @@ GameCondition Game::DealLoop(bool dealFlag)
 
 	//std::sort(this->_players.begin(), this->_players.end(), PlayerComp);
 
-	this->DealStart(dealFlag);
-	this->DealPlay();
+	if (this->DealStart(dealFlag))
+	{
+		this->DealPlay();
+	}
 	this->DeterminingWinner();
 
 	return this->DealLoop(CONTINUE_DEAL);
@@ -420,18 +428,18 @@ GameCondition Game::DealLoop(bool dealFlag)
 
 void Game::ActualPlayerList()
 {
-	size_t index = this->_players.size();
-	while (index > 0)
+	int index = this->_players.size() - 1;
+	while (index >= 0)
 	{
-		int balance = this->_players[index - 1].GetChips();
-		if (balance <= CHIP_VALUE)
+		int balance = this->_players[index].GetChips();
+		if (balance < CHIP_VALUE)
 		{
-			this->_players.erase(this->_players.begin() + index - 1);
+			this->_players.erase(this->_players.begin() + index);
 		}
 		else
 		{
-			this->_players[index - 1].SetPlayerActive(PlayerCondition::Active);
-			this->_players[index - 1].SetLastRaise(0);
+			this->_players[index].SetPlayerActive(PlayerCondition::Active);
+			this->_players[index].SetLastRaise(0);
 		}
 
 		index--;

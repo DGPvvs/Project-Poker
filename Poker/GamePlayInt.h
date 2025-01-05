@@ -2,13 +2,16 @@
 #include <vector>
 #include <queue>
 
-#include "GlobalConstants.h"
 #include "Player.h"
-#include "Card.h"
+#include "IWriter.h"
+#include "IReader.h"
 
-class GamePlay
+class GamePlayInt
 {
 private:
+	IWriter* writer;
+	IReader* reader;
+
 	std::vector<Player> _players;
 	std::vector<Card> _cardDecks;
 	std::queue<Player*> _playersQu;
@@ -33,8 +36,9 @@ private:
 	void DeterminingWinner();
 
 public:
-	GamePlay();
+	GamePlayInt();
+	GamePlayInt(IWriter* writer, IReader* reader);
+
 	void Run();
 };
-
 

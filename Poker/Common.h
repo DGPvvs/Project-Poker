@@ -25,7 +25,7 @@ private:
 	void ChoisNewGame();
 	void ClearGame(bool);
 	void ClearDeal(bool);
-	void DealStart(bool);
+	bool DealStart(bool);
 	GameCondition DealLoop(bool);
 	void ActualPlayerList();
 	void DealPlay();

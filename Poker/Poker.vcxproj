@@ -129,7 +129,10 @@
   <ItemGroup>
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="ConsoleReader.cpp" />
+    <ClCompile Include="ConsoleWriter.cpp" />
     <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="GamePlayInt.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Poker.cpp" />
     <ClCompile Include="SetDesk.cpp" />
@@ -137,9 +140,14 @@
   <ItemGroup>
     <ClInclude Include="Card.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="ConsoleReader.h" />
+    <ClInclude Include="ConsoleWriter.h" />
     <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="GamePlayInt.h" />
     <ClInclude Include="GlobalConstants.h" />
     <ClInclude Include="GlobalTypes.h" />
+    <ClInclude Include="IReader.h" />
+    <ClInclude Include="IWriter.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SetDesk.h" />
   </ItemGroup>

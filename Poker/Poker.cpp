@@ -10,15 +10,28 @@
 #include "Card.h"
 #include "Player.h"
 #include "GamePlay.h"
+#include "GamePlayInt.h"
+#include "ConsoleWriter.h"
+#include "ConsoleReader.h"
 
 
 int main()
 {
-    GamePlay game = GamePlay(); // Разиграването е реализирано с помоща на указатели към играча
+    ConsoleWriter* writer = new ConsoleWriter();
+    ConsoleReader* reader = new ConsoleReader();
+
+    GamePlayInt game = GamePlayInt(writer, reader);
+
+    //GamePlay game = GamePlay(); // Разиграването е реализирано с помоща на указатели към играча
     //Game game = Game(); // Разиграването е реализирано с помоща на id на играча
     
     game.Run();
 
+    delete writer;
+    writer = nullptr;
+
+    delete reader;
+    reader = nullptr;
 
     return 0;    
 }
