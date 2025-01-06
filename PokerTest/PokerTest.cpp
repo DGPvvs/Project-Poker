@@ -9,8 +9,15 @@
 #include "../Poker/Player.cpp"
 #include "../Poker/SetDesk.h"
 #include "../Poker/SetDesk.cpp"
+#include "../Poker/IWriter.h"
+#include "../Poker/IWriter.h"
+#include "../Poker/GamePlayInt.h"
+#include "../Poker/GamePlayInt.cpp"
+#include "IO.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+#define TEST
 
 namespace PokerTest
 {
@@ -69,7 +76,6 @@ namespace PokerTest
 			AddCardInDesk(card1, cards);
 			AddCardInDesk(card2, cards);
 			AddCardInDesk(card3, cards);
-
 
 			Player player = Player();
 
@@ -750,6 +756,52 @@ namespace PokerTest
 			actualPoints = player.GetPoints();
 
 			Assert::AreEqual(expectedPoints, actualPoints);
+		}
+	};
+
+	TEST_CLASS(PokerGamePlayer)
+	{
+	public:
+		TEST_METHOD(xxx)
+		{
+			std::vector<Card> cards = std::vector<Card>();
+			Card card1 = Card(Suit::Diamonds | Rank::Seven | Pip::N7);
+			Card card2 = Card(Suit::Hearts | Rank::Seven | Pip::N7);
+			Card card3 = Card(Suit::Spades | Rank::Seven | Pip::N7);
+
+			AddCardInDesk(card1, cards);
+			AddCardInDesk(card2, cards);
+			AddCardInDesk(card3, cards);
+
+			Player player1 = Player();
+
+			player1.SetCards(cards);
+
+			std::vector<Card> cards1 = std::vector<Card>();
+			Card card4 = Card(Suit::Diamonds | Rank::Eight | Pip::N8);
+			Card card5 = Card(Suit::Hearts | Rank::Eight | Pip::N8);
+			Card card6 = Card(Suit::Spades | Rank::Eight | Pip::N8);
+
+			AddCardInDesk(card4, cards1);
+			AddCardInDesk(card5, cards1);
+			AddCardInDesk(card6, cards1);
+
+
+			Player player2 = Player();
+
+			player2.SetCards(cards1);
+
+			std::vector<Player> players = std::vector<Player>();
+			players.push_back(player1);
+			players.push_back(player2);
+
+			std::vector<std::string> strVec = std::vector<std::string>();
+
+			strVec.push_back("2");
+
+			IO* io = new IO(strVec);
+
+			GamePlayInt game = GamePlayInt(io, io, players);
 		}
 	};
 }

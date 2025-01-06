@@ -225,7 +225,7 @@ bool GamePlay::DealStart(bool dealFlag)
 
 	SetUpCardDesk(this->_cardDecks);
 
-	bool result = NOT_DEAL_PLAY;
+	bool result = DEAL_PLAY;
 
 	for (auto& player : this->_players)
 	{
@@ -234,7 +234,7 @@ bool GamePlay::DealStart(bool dealFlag)
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
 
-			result = result || ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
+			result = result && ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
 
 			std::cout << player.GetName() << ": " << player.GetChips() << std::endl << std::endl;
 
@@ -449,19 +449,20 @@ void GamePlay::DeterminingWinner()
 	{
 		for (auto& player : winners)
 		{
-			if (player->GetChips() <= CHIP_VALUE)
+			if (player->GetChips() < CHIP_VALUE)
 			{
-				player->AddChips((CHIPS_ADD_VALUE - 1) * CHIP_VALUE);
+				player->AddChips(CHIPS_ADD_VALUE * CHIP_VALUE);
 			}
 		}
+
+		int halfPot = std::ceil(1.0 * this->_pot / 2);
 
 		for (size_t i = 0; i < this->_playersQu.size(); i++)
 		{
 			Player& player = *(this->_playersQu.front());
 			this->_playersQu.pop();
-
-			int halfPot = std::ceil(1.0 * this->_pot / 2);
-			if (player.GetChips() <= (halfPot + CHIP_VALUE))
+						
+			if (player.GetChips() < (halfPot + CHIP_VALUE))
 			{
 				player.SetPlayerActive(PlayerCondition::Fold);
 			}
@@ -481,6 +482,7 @@ void GamePlay::DeterminingWinner()
 						player.AddChips(-halfPot);
 						this->_pot += halfPot;
 						player.SetPlayerActive(PlayerCondition::Active);
+						player.SetLastRaise(0);
 						isCorrect = true;
 					}
 					else if (s == "n" || s == "N")

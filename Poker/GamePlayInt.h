@@ -37,7 +37,12 @@ private:
 
 public:
 	GamePlayInt();
-	GamePlayInt(IWriter* writer, IReader* reader);
+	GamePlayInt(IWriter*, IReader*);
+
+#ifdef TEST
+	GamePlayInt(IWriter*, IReader*, std::vector<Player>&);
+#endif // TEST
+
 
 	void Run();
 };

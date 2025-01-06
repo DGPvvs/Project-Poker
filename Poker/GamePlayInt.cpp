@@ -22,6 +22,13 @@ GamePlayInt::GamePlayInt(IWriter* writer, IReader* reader) : GamePlayInt::GamePl
 	this->reader = reader;
 }
 
+#ifdef TEST
+GamePlayInt::GamePlayInt(IWriter* writer, IReader* reader, std::vector<Player>& players) : GamePlayInt :: GamePlayInt(writer, reader)
+{
+	this->_players = players;
+}
+#endif // TEST
+
 void GamePlayInt::Run()
 {
 	GameCondition condition = GameCondition::Win;
@@ -255,19 +262,20 @@ void GamePlayInt::DeterminingWinner()
 	{
 		for (auto& player : winners)
 		{
-			if (player->GetChips() <= CHIP_VALUE)
+			if (player->GetChips() < CHIP_VALUE)
 			{
-				player->AddChips((CHIPS_ADD_VALUE - 1) * CHIP_VALUE);
+				player->AddChips(CHIPS_ADD_VALUE * CHIP_VALUE);
 			}
 		}
+
+		int halfPot = std::ceil(1.0 * this->_pot / 2);
 
 		for (size_t i = 0; i < this->_playersQu.size(); i++)
 		{
 			Player& player = *(this->_playersQu.front());
 			this->_playersQu.pop();
-
-			int halfPot = std::ceil(1.0 * this->_pot / 2);
-			if (player.GetChips() <= (halfPot + CHIP_VALUE))
+						
+			if (player.GetChips() < (halfPot + CHIP_VALUE))
 			{
 				player.SetPlayerActive(PlayerCondition::Fold);
 			}
@@ -288,6 +296,7 @@ void GamePlayInt::DeterminingWinner()
 						player.AddChips(-halfPot);
 						this->_pot += halfPot;
 						player.SetPlayerActive(PlayerCondition::Active);
+						player.SetLastRaise(0);
 						isCorrect = true;
 					}
 					else if (s == "n" || s == "N")
@@ -517,7 +526,7 @@ bool GamePlayInt::DealStart(bool dealFlag)
 
 	SetUpCardDesk(this->_cardDecks);
 
-	bool result = NOT_DEAL_PLAY;
+	bool result = DEAL_PLAY;
 
 	for (auto& player : this->_players)
 	{
@@ -526,7 +535,7 @@ bool GamePlayInt::DealStart(bool dealFlag)
 			player.AddChips(-(CHIP_VALUE));
 			this->_pot += CHIP_VALUE;
 
-			result = result || ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
+			result = result && ((player.GetChips() > 0) ? DEAL_PLAY : NOT_DEAL_PLAY);
 
 			std::string output = std::string()
 				.append(player.GetName())
@@ -536,7 +545,10 @@ bool GamePlayInt::DealStart(bool dealFlag)
 			this->writer->WriteLine(output);
 			this->writer->WriteLine();
 
+#ifndef TEST
 			player.SetCards(this->_cardDecks);
+#endif // !TEST
+
 			this->_playersQu.push(&player);
 		}
 	}
